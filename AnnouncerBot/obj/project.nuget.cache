@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WSUw+46O6i3HBvLsxb8/yCKyUyBLsOna+4UZ4FxgbI0i8+JyUVpxN/Twy0uxPlRPLdgI8I46zfKLZCHO9vZPNA==",
+  "dgSpecHash": "bzxFSPXjkSNvftrXb/rlF/MgaJ3m+RmRZM9STHNwpt4YDj9YICkfccI36gXnRosw1QO+wwqLHKYxFWU8id7zYA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBot\\AnnouncerBot\\AnnouncerBot.csproj",
+  "projectFilePath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBotDiscord\\AnnouncerBot\\AnnouncerBot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\50552851\\.nuget\\packages\\dsharpplus\\4.1.0\\dsharpplus.4.1.0.nupkg.sha512",
     "C:\\Users\\50552851\\.nuget\\packages\\emzi0767.common\\2.6.2\\emzi0767.common.2.6.2.nupkg.sha512",

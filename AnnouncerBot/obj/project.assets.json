@@ -4475,11 +4475,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\50552851\\source\\repos\\AnnouncerBot\\AnnouncerBot\\AnnouncerBot.csproj",
+      "projectUniqueName": "C:\\Users\\50552851\\source\\repos\\AnnouncerBotDiscord\\AnnouncerBot\\AnnouncerBot.csproj",
       "projectName": "AnnouncerBot",
-      "projectPath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBot\\AnnouncerBot\\AnnouncerBot.csproj",
+      "projectPath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBotDiscord\\AnnouncerBot\\AnnouncerBot.csproj",
       "packagesPath": "C:\\Users\\50552851\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBot\\AnnouncerBot\\obj\\",
+      "outputPath": "C:\\Users\\50552851\\source\\repos\\AnnouncerBotDiscord\\AnnouncerBot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\50552851\\AppData\\Roaming\\NuGet\\NuGet.Config",
