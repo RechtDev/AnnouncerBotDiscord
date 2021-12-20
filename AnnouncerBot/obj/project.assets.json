@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "ConcurrentHashSet/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ConcurrentCollections.dll": {}
+        }
+      },
       "DSharpPlus/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -21,6 +30,67 @@
           "lib/netstandard2.0/DSharpPlus.dll": {}
         }
       },
+      "DSharpPlus.CommandsNext/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "DSharpPlus": "4.1.0",
+          "Microsoft.Extensions.DependencyInjection": "5.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/DSharpPlus.CommandsNext.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DSharpPlus.CommandsNext.dll": {}
+        }
+      },
+      "DSharpPlus.Interactivity/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "ConcurrentHashSet": "1.1.0",
+          "DSharpPlus": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/DSharpPlus.Interactivity.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DSharpPlus.Interactivity.dll": {}
+        }
+      },
+      "DSharpPlus.VoiceNext/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "DSharpPlus": "4.1.0",
+          "DSharpPlus.VoiceNext.Natives": "1.0.0",
+          "System.Threading.Channels": "5.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/DSharpPlus.VoiceNext.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/DSharpPlus.VoiceNext.dll": {}
+        }
+      },
+      "DSharpPlus.VoiceNext.Natives/1.0.0": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x64/native/libopus.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x64/native/libsodium.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/libopus.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/libsodium.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
       "Emzi0767.Common/2.6.2": {
         "type": "package",
         "dependencies": {
@@ -34,6 +104,27 @@
         },
         "runtime": {
           "lib/netcoreapp2.1/Emzi0767.Common.dll": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/5.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+        },
+        "compile": {
+          "lib/net5.0/Microsoft.Extensions.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.Extensions.DependencyInjection.dll": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
       },
       "Microsoft.Extensions.Logging.Abstractions/5.0.0": {
@@ -1234,6 +1325,15 @@
           "lib/netstandard1.3/System.Threading.dll": {}
         }
       },
+      "System.Threading.Channels/5.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/System.Threading.Channels.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/System.Threading.Channels.dll": {}
+        }
+      },
       "System.Threading.Tasks/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1299,6 +1399,23 @@
     }
   },
   "libraries": {
+    "ConcurrentHashSet/1.1.0": {
+      "sha512": "1SuuhZe0wUJbchXdjS23O+quojkw0IXqM9LtUp3RwgQreDI4cj1lfDbdHnD4fOYEnUrftzVIYoonvPlsXm30Bg==",
+      "type": "package",
+      "path": "concurrenthashset/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "concurrenthashset.1.1.0.nupkg.sha512",
+        "concurrenthashset.nuspec",
+        "lib/net461/ConcurrentCollections.dll",
+        "lib/net461/ConcurrentCollections.xml",
+        "lib/netstandard1.0/ConcurrentCollections.dll",
+        "lib/netstandard1.0/ConcurrentCollections.xml",
+        "lib/netstandard2.0/ConcurrentCollections.dll",
+        "lib/netstandard2.0/ConcurrentCollections.xml"
+      ]
+    },
     "DSharpPlus/4.1.0": {
       "sha512": "s1QTvwMvbTTmIviOaVOyFRH2NAwW9IXMnCzevLrEFV6XFJ3ZnYrF2B03K6iA2U9uChUTZVOSNkhRNcPqqZHzCA==",
       "type": "package",
@@ -1311,6 +1428,63 @@
         "dsharpplus.png",
         "lib/netstandard2.0/DSharpPlus.dll",
         "lib/netstandard2.0/DSharpPlus.xml"
+      ]
+    },
+    "DSharpPlus.CommandsNext/4.1.0": {
+      "sha512": "4rxtz2pWEsJpPBjtnWEB6q5TmFlKLc7w934CQHS26Ylj85/9k+aYLW7e61TEcsd/+zLjUs7BF82YvlhGKImrZQ==",
+      "type": "package",
+      "path": "dsharpplus.commandsnext/4.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dsharpplus.commandsnext.4.1.0.nupkg.sha512",
+        "dsharpplus.commandsnext.nuspec",
+        "dsharpplus.png",
+        "lib/netstandard2.0/DSharpPlus.CommandsNext.dll",
+        "lib/netstandard2.0/DSharpPlus.CommandsNext.xml"
+      ]
+    },
+    "DSharpPlus.Interactivity/4.1.0": {
+      "sha512": "FTQXMqGoWvGMox+UyybL0Jc/P12xTCIUfMRF0n3974Sa5QiwrqhDdP02lHmUS7k7dQF+vMY/YLjLyYdPB7hpFw==",
+      "type": "package",
+      "path": "dsharpplus.interactivity/4.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dsharpplus.interactivity.4.1.0.nupkg.sha512",
+        "dsharpplus.interactivity.nuspec",
+        "dsharpplus.png",
+        "lib/netstandard2.0/DSharpPlus.Interactivity.dll",
+        "lib/netstandard2.0/DSharpPlus.Interactivity.xml"
+      ]
+    },
+    "DSharpPlus.VoiceNext/4.1.0": {
+      "sha512": "QbuxRaT/1GFoY9pCNraQ2XGLZWFXE8z/FQoXsOpTQqFW4UzC+fVV+2kXVMhuS6zJP+E96MRC2kveIgzwoVXJfA==",
+      "type": "package",
+      "path": "dsharpplus.voicenext/4.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dsharpplus.png",
+        "dsharpplus.voicenext.4.1.0.nupkg.sha512",
+        "dsharpplus.voicenext.nuspec",
+        "lib/netstandard2.0/DSharpPlus.VoiceNext.dll",
+        "lib/netstandard2.0/DSharpPlus.VoiceNext.xml"
+      ]
+    },
+    "DSharpPlus.VoiceNext.Natives/1.0.0": {
+      "sha512": "U+UtMpommsfh+OOgLYQBy1e+53P/q6/LW18bgIJqsyshhThhiyEH8ISnpESdQrcqEDj6Nud7+FbnNi7N4QtDGw==",
+      "type": "package",
+      "path": "dsharpplus.voicenext.natives/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dsharpplus.voicenext.natives.1.0.0.nupkg.sha512",
+        "dsharpplus.voicenext.natives.nuspec",
+        "runtimes/win-x64/native/libopus.dll",
+        "runtimes/win-x64/native/libsodium.dll",
+        "runtimes/win-x86/native/libopus.dll",
+        "runtimes/win-x86/native/libsodium.dll"
       ]
     },
     "Emzi0767.Common/2.6.2": {
@@ -1328,6 +1502,50 @@
         "lib/netcoreapp2.1/Emzi0767.Common.xml",
         "lib/netstandard2.0/Emzi0767.Common.dll",
         "lib/netstandard2.0/Emzi0767.Common.xml"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection/5.0.1": {
+      "sha512": "//mDNrYeiJ0eh/awFhDFJQzkRVra/njU5Y4fyK7X29g5HScrzbUkKOKlyTtygthcGFt4zNC8G5CFCjb/oizomA==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection/5.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/net5.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/net5.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.dll",
+        "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.xml",
+        "microsoft.extensions.dependencyinjection.5.0.1.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0": {
+      "sha512": "ORj7Zh81gC69TyvmcUm9tSzytcy8AVousi+IVRAI8nLieQjOFryRusSFh7+aLk16FN9pQNqJAiMd7BTKINK0kA==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/net461/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "Microsoft.Extensions.Logging.Abstractions/5.0.0": {
@@ -4232,6 +4450,32 @@
         "system.threading.nuspec"
       ]
     },
+    "System.Threading.Channels/5.0.0": {
+      "sha512": "RLBIxntLaG9pRmmuVDwY1kc8Bvp/FQzSxPU+19VekkScKkWtVP9r8bLhm28ama3usc816UBrmkg3vv3jUea/hw==",
+      "type": "package",
+      "path": "system.threading.channels/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net461/System.Threading.Channels.dll",
+        "lib/net461/System.Threading.Channels.xml",
+        "lib/netcoreapp3.0/System.Threading.Channels.dll",
+        "lib/netcoreapp3.0/System.Threading.Channels.xml",
+        "lib/netstandard1.3/System.Threading.Channels.dll",
+        "lib/netstandard1.3/System.Threading.Channels.xml",
+        "lib/netstandard2.0/System.Threading.Channels.dll",
+        "lib/netstandard2.0/System.Threading.Channels.xml",
+        "lib/netstandard2.1/System.Threading.Channels.dll",
+        "lib/netstandard2.1/System.Threading.Channels.xml",
+        "system.threading.channels.5.0.0.nupkg.sha512",
+        "system.threading.channels.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Threading.Tasks/4.3.0": {
       "sha512": "LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
       "type": "package",
@@ -4466,6 +4710,9 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "DSharpPlus >= 4.1.0",
+      "DSharpPlus.CommandsNext >= 4.1.0",
+      "DSharpPlus.Interactivity >= 4.1.0",
+      "DSharpPlus.VoiceNext >= 4.1.0",
       "System.Configuration.ConfigurationManager >= 6.0.0"
     ]
   },
@@ -4509,6 +4756,18 @@
         "targetAlias": "net5.0",
         "dependencies": {
           "DSharpPlus": {
+            "target": "Package",
+            "version": "[4.1.0, )"
+          },
+          "DSharpPlus.CommandsNext": {
+            "target": "Package",
+            "version": "[4.1.0, )"
+          },
+          "DSharpPlus.Interactivity": {
+            "target": "Package",
+            "version": "[4.1.0, )"
+          },
+          "DSharpPlus.VoiceNext": {
             "target": "Package",
             "version": "[4.1.0, )"
           },

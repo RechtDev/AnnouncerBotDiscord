@@ -44,6 +44,18 @@
               "target": "Package",
               "version": "[4.1.0, )"
             },
+            "DSharpPlus.CommandsNext": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.Interactivity": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "DSharpPlus.VoiceNext": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[6.0.0, )"

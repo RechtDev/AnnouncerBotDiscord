@@ -3,6 +3,9 @@ using System.Collections.Specialized;
 using System;
 using System.Threading.Tasks;
 using DSharpPlus;
+using DSharpPlus.VoiceNext;
+using DSharpPlus.CommandsNext;
+using AnnouncerBot.Commands;
 
 namespace AnnouncerBot
 {
@@ -19,11 +22,17 @@ namespace AnnouncerBot
             {
                 Token = secretToken,
                 TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged
+                Intents = DiscordIntents.All
             });
+            var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
+            {
+                StringPrefixes = new[] {"!ab "}
+            });
+
+            commands.RegisterCommands<ConfigModule>();
+            discord.UseVoiceNext();
             await discord.ConnectAsync();
             await Task.Delay(-1);
         }
-
     }
 }
