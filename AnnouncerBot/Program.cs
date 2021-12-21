@@ -6,6 +6,7 @@ using DSharpPlus;
 using DSharpPlus.VoiceNext;
 using DSharpPlus.CommandsNext;
 using AnnouncerBot.Commands;
+using AnnouncerBot.Models;
 
 namespace AnnouncerBot
 {
@@ -18,21 +19,9 @@ namespace AnnouncerBot
         static async Task MainAsync()
         {
             string secretToken = ConfigurationManager.AppSettings.Get("BotToken");
-            var discord = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = secretToken,
-                TokenType = TokenType.Bot,
-                Intents = DiscordIntents.All
-            });
-            var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
-            {
-                StringPrefixes = new[] {"!ab "}
-            });
-
-            commands.RegisterCommands<ConfigModule>();
-            discord.UseVoiceNext();
-            await discord.ConnectAsync();
-            await Task.Delay(-1);
+            var bot = new Models.AnnouncerBot(secretToken);
+            await bot.Connect();    
         }
+
     }
 }

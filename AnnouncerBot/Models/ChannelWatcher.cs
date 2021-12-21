@@ -8,11 +8,11 @@ using DSharpPlus.VoiceNext;
 
 namespace AnnouncerBot.Models
 {
-    class ChannelWatcher
+    public class ChannelWatcher
     {
-        private List<DiscordUser> _activeUsers = new List<DiscordUser>();
+        private List<DiscordMember> _activeUsers = new List<DiscordMember>();
 
-        public List<DiscordUser> ActiveUsers
+        public List<DiscordMember> ActiveUsers
         {
             get { return _activeUsers; }
             set
@@ -27,7 +27,8 @@ namespace AnnouncerBot.Models
         DiscordUser User { get; set; }
         public VoiceNextConnection Connection { get; set; }
         public IEnumerable<KeyValuePair<ulong, DiscordChannel>> ServerChannels { get; set; }
-        public event EventHandler<List<DiscordUser>> ActiveUsersChanged;
+        public event ActiveUserChangedEventHandler ActiveUsersChanged;
+        public delegate void ActiveUserChangedEventHandler(List<DiscordMember> users);
         public ChannelWatcher(DiscordGuild guild, VoiceNextExtension voiceNext)
         {
             this.Guild = guild;
@@ -38,7 +39,7 @@ namespace AnnouncerBot.Models
         {
             foreach (var channel in ServerChannels)
             {
-                ActiveUsers.AddRange(channel.Value.Users.ToList());
+                ActiveUsers = channel.Value.Users.ToList();
             }
             return Task.CompletedTask;
         }
@@ -46,7 +47,8 @@ namespace AnnouncerBot.Models
         {
             if (ActiveUsersChanged != null)
             {
-                ActiveUsersChanged(this, ActiveUsers);
+                ActiveUsersChanged?.Invoke(ActiveUsers);
+                
             }
         }        
     }
