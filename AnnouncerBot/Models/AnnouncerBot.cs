@@ -15,7 +15,7 @@ namespace AnnouncerBot.Models
         private DiscordClient _discordClient;
         public AnnouncerBot(string token)
         {
-            _discordClient = InitBot();
+            _discordClient = InitBot(token);
             AddCommandModules();
             AddEventHandlers();
             _discordClient.UseVoiceNext();
@@ -27,11 +27,11 @@ namespace AnnouncerBot.Models
             await Task.Delay(-1);
         }
 
-        private static DiscordClient InitBot()
+        private static DiscordClient InitBot(string token)
         {
             return new DiscordClient(new DiscordConfiguration()
             {
-                Token = "OTAxNzIxNjI0MzgwODU0Mjcy.YXT_tA.VZVMNoLMuIQfdsp_DgzVHrDRviA",
+                Token = token,
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All
                 
