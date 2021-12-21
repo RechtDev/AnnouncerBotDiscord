@@ -4,13 +4,13 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.VoiceNext;
 using System;
-using System.Speech.Synthesis;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Speech.AudioFormat;
+using System.Speech.Synthesis;
+using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
 {
@@ -55,50 +55,53 @@ namespace AnnouncerBot.Models
                 {
                     return;
                 }
-                if(!e.Channel.Users.Contains(sender.CurrentUser))
+                if (!e.Channel.Users.Contains(sender.CurrentUser))
                 {
 
                     ChannelToJoin ??= e.Channel;
                     ChannelToJoin.ConnectAsync();
                     ChannelToJoin = null;
                 }
-                if (!e.User.IsBot)
-                {
-                    var talkInChat = Task.Run(async () =>
+                
+                    if(!e.User.IsBot)
                     {
-                        Vnext = sender.GetVoiceNext();
-                        Connection = Vnext.GetConnection(e.Guild);
-
-                        while (Connection == null)
+                        var talkInChat = Task.Run(async () =>
                         {
+                            Vnext = sender.GetVoiceNext();
                             Connection = Vnext.GetConnection(e.Guild);
-                        }
-                        await Talk(Connection, e.User);
 
-                        Connection.Disconnect();
-                    });
-                }
+                            while (Connection == null)
+                            {
+                                Connection = Vnext.GetConnection(e.Guild);
+                            }
+                            await Talk(Connection, e.User);
+
+                            Connection.Disconnect();
+                        });
+                    }
+                    
+                
             });
-            
+
             return Task.WhenAll(joinChat);
         }
 
         public static async Task Talk(VoiceNextConnection connection, DiscordUser UserToAnnounce)
         {
-           
-                var filePath = $"{AnnouncableNames[UserToAnnounce]}";
-                var ffmpeg = Process.Start(new ProcessStartInfo
-                {
-                    FileName = "ffmpeg",
-                    Arguments = $@"-i ""{filePath}"" -ac 2 -f s16le -ar 48000 pipe:1",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false
-                });
-                Stream pcm = ffmpeg.StandardOutput.BaseStream;
-                VoiceTransmitSink transmit = connection.GetTransmitSink();
+
+            var filePath = $"{AnnouncableNames[UserToAnnounce]}";
+            var ffmpeg = Process.Start(new ProcessStartInfo
+            {
+                FileName = "ffmpeg",
+                Arguments = $@"-i ""{filePath}"" -ac 2 -f s16le -ar 48000 pipe:1",
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            });
+            Stream pcm = ffmpeg.StandardOutput.BaseStream;
+            VoiceTransmitSink transmit = connection.GetTransmitSink();
             Console.WriteLine("Test 1 passed");
-            await pcm.CopyToAsync(transmit); 
-                transmit = null;
+            await pcm.CopyToAsync(transmit);
+            transmit = null;
         }
     }
 }

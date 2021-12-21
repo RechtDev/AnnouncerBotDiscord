@@ -1,12 +1,5 @@
 ﻿using System.Configuration;
-using System.Collections.Specialized;
-using System;
 using System.Threading.Tasks;
-using DSharpPlus;
-using DSharpPlus.VoiceNext;
-using DSharpPlus.CommandsNext;
-using AnnouncerBot.Commands;
-using AnnouncerBot.Models;
 
 namespace AnnouncerBot
 {
@@ -20,7 +13,7 @@ namespace AnnouncerBot
         {
             string secretToken = ConfigurationManager.AppSettings.Get("BotToken");
             var bot = new Models.AnnouncerBot(secretToken);
-            await bot.Connect();    
+            await bot.Connect();
         }
 
     }
