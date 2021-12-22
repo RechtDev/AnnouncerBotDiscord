@@ -13,7 +13,7 @@ namespace AnnouncerBot
         {
             string secretToken = ConfigurationManager.AppSettings.Get("BotToken");
             var bot = new Models.AnnouncerBot(secretToken);
-            await bot.Connect();    
+            await bot.Connect();
         }
 
     }

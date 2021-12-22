@@ -4,13 +4,13 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.VoiceNext;
 using System;
-using System.Speech.Synthesis;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Speech.AudioFormat;
+using System.Speech.Synthesis;
+using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
 {
@@ -60,22 +60,25 @@ namespace AnnouncerBot.Models
                     ChannelToJoin.ConnectAsync();
                     ChannelToJoin = null;
                 }
-                if (!e.User.IsBot)
-                {
-                    var talkInChat = Task.Run(async () =>
+                
+                    if(!e.User.IsBot)
                     {
-                        Vnext = sender.GetVoiceNext();
-                        Connection = Vnext.GetConnection(e.Guild);
-
-                        while (Connection == null)
+                        var talkInChat = Task.Run(async () =>
                         {
+                            Vnext = sender.GetVoiceNext();
                             Connection = Vnext.GetConnection(e.Guild);
-                        }
-                        await Talk(Connection, e.User);
 
-                        Connection.Disconnect();
-                    });
-                }
+                            while (Connection == null)
+                            {
+                                Connection = Vnext.GetConnection(e.Guild);
+                            }
+                            await Talk(Connection, e.User);
+
+                            Connection.Disconnect();
+                        });
+                    }
+                    
+                
             });
 
             return Task.WhenAll(joinChat);
