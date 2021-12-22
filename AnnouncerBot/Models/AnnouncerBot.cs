@@ -2,7 +2,6 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.VoiceNext;
-using System;
 using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
@@ -32,7 +31,6 @@ namespace AnnouncerBot.Models
                 Intents = DiscordIntents.All
 
             });
-
         }
         private void AddCommandModules()
         {
@@ -41,12 +39,6 @@ namespace AnnouncerBot.Models
                 StringPrefixes = new[] { "!ab " }
             });
             commands.RegisterCommands<ConfigModule>();
-        }
-
-        private static Task Discord_VoiceStateUpdated(DiscordClient sender, DSharpPlus.EventArgs.VoiceStateUpdateEventArgs e)
-        {
-            Console.WriteLine(e.User.Username);
-            return Task.CompletedTask;
         }
     }
 }

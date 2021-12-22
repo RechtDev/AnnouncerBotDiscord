@@ -17,24 +17,21 @@ namespace AnnouncerBot.Models
     public static class Announcer
     {
         private static DiscordChannel ChannelToJoin { get; set; } = null;
-        static DiscordGuild Guild { get; set; }
         static VoiceNextConnection Connection { get; set; } = null;
         static VoiceNextExtension Vnext { get; set; } = null;
         static Dictionary<DiscordUser, string> AnnouncableNames { get; set; } = null;
         public static async Task GetSpeachSynthisizerFiles(CommandContext context)
         {
             var members = context.Guild.Members.Values;
-            using (SpeechSynthesizer synthesizer = new SpeechSynthesizer())
+            using SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            AnnouncableNames = new Dictionary<DiscordUser, string>();
+            foreach (var member in members)
             {
-                AnnouncableNames = new Dictionary<DiscordUser, string>();
-                foreach (var member in members)
-                {
-                    synthesizer.SetOutputToWaveFile($@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav", new SpeechAudioFormatInfo(48000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
-                    PromptBuilder builder = new();
-                    builder.AppendText($"{member.DisplayName} has joined the chat");
-                    synthesizer.Speak(builder);
-                    AnnouncableNames.Add(member, $@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav");
-                }
+                synthesizer.SetOutputToWaveFile($@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav", new SpeechAudioFormatInfo(48000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
+                PromptBuilder builder = new();
+                builder.AppendText($"{member.DisplayName} has joined the chat");
+                synthesizer.Speak(builder);
+                AnnouncableNames.Add(member, $@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav");
             }
         }
         internal static Task AnnounceUserJoined(CommandContext context)
@@ -49,12 +46,13 @@ namespace AnnouncerBot.Models
         }
         private static Task AnnounceName_VoiceStateUpdated(DiscordClient sender, VoiceStateUpdateEventArgs e)
         {
+            if (e.Channel == null || (e.Before.IsSelfVideo || e.Before.IsSelfDeafened || e.Before.IsSelfMuted || e.Before.IsSelfStream || e.Before.IsSuppressed || e.Before.IsServerMuted || e.Before.IsServerDeafened)
+                                  || (e.After.IsSelfVideo || e.After.IsSelfDeafened || e.After.IsSelfMuted || e.After.IsSelfStream || e.After.IsSuppressed || e.After.IsServerMuted || e.After.IsServerDeafened))
+            {
+                return Task.CompletedTask;
+            }
             var joinChat = Task.Run(() =>
             {
-                if (e.Channel == null)
-                {
-                    return;
-                }
                 if (!e.Channel.Users.Contains(sender.CurrentUser))
                 {
 
@@ -85,7 +83,6 @@ namespace AnnouncerBot.Models
 
             return Task.WhenAll(joinChat);
         }
-
         public static async Task Talk(VoiceNextConnection connection, DiscordUser UserToAnnounce)
         {
 
