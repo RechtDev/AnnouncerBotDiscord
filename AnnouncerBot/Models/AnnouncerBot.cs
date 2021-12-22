@@ -2,10 +2,6 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.VoiceNext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
@@ -17,7 +13,6 @@ namespace AnnouncerBot.Models
         {
             _discordClient = InitBot(token);
             AddCommandModules();
-            AddEventHandlers();
             _discordClient.UseVoiceNext();
         }
 
@@ -34,13 +29,8 @@ namespace AnnouncerBot.Models
                 Token = token,
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All
-                
-        });
 
-        }
-        private void AddEventHandlers()
-        {
-           //_discordClient.VoiceStateUpdated
+            });
         }
         private void AddCommandModules()
         {
@@ -49,12 +39,6 @@ namespace AnnouncerBot.Models
                 StringPrefixes = new[] { "!ab " }
             });
             commands.RegisterCommands<ConfigModule>();
-        }
-
-        private static Task Discord_VoiceStateUpdated(DiscordClient sender, DSharpPlus.EventArgs.VoiceStateUpdateEventArgs e)
-        {
-            Console.WriteLine(e.User.Username);
-            return Task.CompletedTask;
         }
     }
 }
