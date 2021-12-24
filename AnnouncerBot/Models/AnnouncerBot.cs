@@ -10,7 +10,7 @@ namespace AnnouncerBot.Models
 {
     public class AnnouncerBot
     {
-        private DiscordClient _discordClient;
+        private DiscordShardedClient _discordClient;
         public AnnouncerBot(string token)
         {
             _discordClient = InitBot(token);
@@ -22,9 +22,9 @@ namespace AnnouncerBot.Models
             await _discordClient.ConnectAsync();
             await Task.Delay(-1);
         }
-        private static DiscordClient InitBot(string token)
+        private static DiscordShardedClient InitBot(string token)
         {
-            return new DiscordClient(new DiscordConfiguration()
+            return new DiscordShardedClient(new DiscordConfiguration()
             {
                 Token = token,
                 TokenType = TokenType.Bot,
@@ -34,7 +34,7 @@ namespace AnnouncerBot.Models
         }
         private void AddCommandModules()
         {
-            var commands = _discordClient.UseCommandsNext(new CommandsNextConfiguration()
+            var commands = _discordClient.UseCommandsNextAsync(new CommandsNextConfiguration()
             {
                 StringPrefixes = new[] { "!ab " },
                 Services = AddServices()
