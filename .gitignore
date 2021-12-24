@@ -1,6 +1,5 @@
 App.config
 AnnouncerBot.dll.config
 /AnnouncerBot/Assets
-/AnnouncerBot/bin/Debug/net5.0/Hello-SoundBible.com-218208532.mp3
-/AnnouncerBot/bin/Debug/net5.0/AnnouncerBot.dll
+/AnnouncerBot/bin/
 /AnnouncerBot/App.config

@@ -2,6 +2,8 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.VoiceNext;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
@@ -15,13 +17,11 @@ namespace AnnouncerBot.Models
             AddCommandModules();
             _discordClient.UseVoiceNext();
         }
-
         public async Task Connect()
         {
             await _discordClient.ConnectAsync();
             await Task.Delay(-1);
         }
-
         private static DiscordClient InitBot(string token)
         {
             return new DiscordClient(new DiscordConfiguration()
@@ -36,9 +36,17 @@ namespace AnnouncerBot.Models
         {
             var commands = _discordClient.UseCommandsNext(new CommandsNextConfiguration()
             {
-                StringPrefixes = new[] { "!ab " }
+                StringPrefixes = new[] { "!ab " },
+                Services = AddServices()
             });
             commands.RegisterCommands<ConfigModule>();
+        }
+        private ServiceProvider AddServices()
+        {
+            var services = new ServiceCollection()
+               .AddSingleton<DependecyFactory>()
+               .BuildServiceProvider();
+            return services;
         }
     }
 }

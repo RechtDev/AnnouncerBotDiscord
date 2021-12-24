@@ -14,17 +14,35 @@ using System.Threading.Tasks;
 
 namespace AnnouncerBot.Models
 {
-    public static class Announcer
+    public class Announcer
     {
-        private static DiscordChannel ChannelToJoin { get; set; } = null;
-        static VoiceNextConnection Connection { get; set; } = null;
-        static VoiceNextExtension Vnext { get; set; } = null;
-        static Dictionary<DiscordUser, string> AnnouncableNames { get; set; } = null;
-        public static async Task GetSpeachSynthisizerFiles(CommandContext context)
+        private static bool firstTime = true;
+        private  DiscordChannel ChannelToJoin { get; set; } = null;
+        private  CommandContext Context { get; set; } = null;
+        private VoiceNextConnection Connection { get; set; } = null;
+        private VoiceNextExtension Vnext { get; set; } = null;
+        private Dictionary<DiscordUser, string> AnnouncableNames { get; set; } = null;
+        
+        public Announcer(CommandContext context)
         {
-            var members = context.Guild.Members.Values;
-            using SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            Context = context;
             AnnouncableNames = new Dictionary<DiscordUser, string>();
+            AssignHandlers();
+            GetSpeachSynthisizerFiles();
+        }
+
+        private void AssignHandlers()
+        {
+            Context.Client.VoiceStateUpdated += AnnounceName_VoiceStateUpdated;
+        }
+        public void UnsubscribeHandler()
+        {
+            Context.Client.VoiceStateUpdated -= AnnounceName_VoiceStateUpdated;
+        }
+        private void GetSpeachSynthisizerFiles()
+        {
+            var members = Context.Guild.Members.Values;
+            using SpeechSynthesizer synthesizer = new SpeechSynthesizer();
             foreach (var member in members)
             {
                 synthesizer.SetOutputToWaveFile($@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav", new SpeechAudioFormatInfo(48000, AudioBitsPerSample.Sixteen, AudioChannel.Stereo));
@@ -34,58 +52,49 @@ namespace AnnouncerBot.Models
                 AnnouncableNames.Add(member, $@"C:\Users\Domjr\Desktop\Projects\AnnouncerBotDiscord\AnnouncerBot\Assets\{member.Username}.wav");
             }
         }
-        internal static Task AnnounceUserJoined(CommandContext context)
+        private Task AnnounceName_VoiceStateUpdated(DiscordClient sender, VoiceStateUpdateEventArgs e)
         {
-            context.Client.VoiceStateUpdated += AnnounceName_VoiceStateUpdated;
-            return Task.CompletedTask;
-        }
-        internal static Task StopAnnouncing(CommandContext context)
-        {
-            context.Client.VoiceStateUpdated -= AnnounceName_VoiceStateUpdated;
-            return Task.CompletedTask;
-        }
-        private static Task AnnounceName_VoiceStateUpdated(DiscordClient sender, VoiceStateUpdateEventArgs e)
-        {
-            if (e.Channel == null || (e.Before.IsSelfVideo || e.Before.IsSelfDeafened || e.Before.IsSelfMuted || e.Before.IsSelfStream || e.Before.IsSuppressed || e.Before.IsServerMuted || e.Before.IsServerDeafened)
-                                  || (e.After.IsSelfVideo || e.After.IsSelfDeafened || e.After.IsSelfMuted || e.After.IsSelfStream || e.After.IsSuppressed || e.After.IsServerMuted || e.After.IsServerDeafened))
+            if (Context.Guild == e.Guild)
             {
-                return Task.CompletedTask;
-            }
-            var joinChat = Task.Run(() =>
-            {
-                if (!e.Channel.Users.Contains(sender.CurrentUser))
+                if (!firstTime)
                 {
-
-                    ChannelToJoin ??= e.Channel;
-                    ChannelToJoin.ConnectAsync();
-                    ChannelToJoin = null;
+                    if (e.Channel == null || (e.After.IsSelfVideo || e.After.IsSelfDeafened || e.After.IsSelfMuted || e.After.IsSelfStream || e.After.IsSuppressed || e.After.IsServerMuted || e.After.IsServerDeafened)
+                                      || (e.Before.IsSelfVideo || e.Before.IsSelfDeafened || e.Before.IsSelfMuted || e.Before.IsSelfStream || e.Before.IsSuppressed || e.Before.IsServerMuted || e.Before.IsServerDeafened))
+                    {
+                        return Task.CompletedTask;
+                    }
                 }
-                
-                    if(!e.User.IsBot)
+                var joinChat = Task.Run(() =>
+                {
+                    if (!e.Channel.Users.Contains(sender.CurrentUser))
+                    {
+
+                        ChannelToJoin ??= e.Channel;
+                        ChannelToJoin.ConnectAsync();
+                        ChannelToJoin = null;
+                    }
+                    if (!e.User.IsBot)
                     {
                         var talkInChat = Task.Run(async () =>
                         {
                             Vnext = sender.GetVoiceNext();
                             Connection = Vnext.GetConnection(e.Guild);
-
                             while (Connection == null)
                             {
                                 Connection = Vnext.GetConnection(e.Guild);
                             }
                             await Talk(Connection, e.User);
-
                             Connection.Disconnect();
+                            firstTime = false;
                         });
                     }
-                    
-                
-            });
-
-            return Task.WhenAll(joinChat);
+                });
+                return Task.WhenAll(joinChat);
+            }
+            return Task.CompletedTask;
         }
-        public static async Task Talk(VoiceNextConnection connection, DiscordUser UserToAnnounce)
+        private async Task Talk(VoiceNextConnection connection, DiscordUser UserToAnnounce)
         {
-
             var filePath = $"{AnnouncableNames[UserToAnnounce]}";
             var ffmpeg = Process.Start(new ProcessStartInfo
             {
@@ -96,9 +105,8 @@ namespace AnnouncerBot.Models
             });
             Stream pcm = ffmpeg.StandardOutput.BaseStream;
             VoiceTransmitSink transmit = connection.GetTransmitSink();
-            Console.WriteLine("Test 1 passed");
             await pcm.CopyToAsync(transmit);
-            transmit = null;
+            await pcm.DisposeAsync();
         }
     }
 }
